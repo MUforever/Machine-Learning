@@ -11,27 +11,6 @@ class GMM:
 		Obj[np.isinf(Obj)] = 0.0
 		return Obj
 
-	def kmean_plusplus_init(self, X):
-		N, D = X.shape
-		clusters = []
-		first_c = np.random.randint(0, N+1, size=1)[0]
-		clusters.append(first_c)
-
-		while len(clusters) < self.K:
-			weights = []
-			for n in xrange(N):
-				min_d = float('inf')
-				for c in clusters:
-					min_d = min(min_d, np.linalg.norm(X[n]-X[c]))
-				weights.append(min_d)
-
-			prob = weights / np.sum(weights)
-
-			new_c = np.random.choice(range(N), p=prob)
-			if new_c not in clusters:
-				clusters.append(new_c)
-		return clusters
-
 	def fit(self, X):
 		N, D = X.shape
 		mu = []
@@ -39,12 +18,7 @@ class GMM:
 		for _ in xrange(self.K):
 			mu.append(np.random.uniform(-3, 3, D))
 			sigma.append(np.identity(D))
-
-		# Kmean++ initialization
-		mu_id = self.kmean_plusplus_init(X)
-		mu = X[mu_id]
-
-
+			
 		mu = np.array(mu)
 		pi = np.ones(self.K)/self.K
 		Q = np.zeros((N, self.K))
