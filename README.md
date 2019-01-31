@@ -1,2 +1,2 @@
 # Machine-Learning
-Have some basic machine learning algorithms
+This repository has implementation of many common used machine learning algorithms, like neural network, naive bayes, svm, etc,  using python.
